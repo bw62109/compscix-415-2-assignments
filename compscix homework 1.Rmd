@@ -1,0 +1,28 @@
+---
+title: "homework_1_wang_weiren"
+author: "weiren wang"
+date: "2/6/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+My Github repository for my assignments can be found at this URL: [https://github.com/bw62109/compscix-415-2-assignments.git](https://github.com/bw62109/compscix-415-2-assignments.git)
+```{r}
+library(mdsr)
+library(tidyverse)
+data("WorldCities")
+glimpse(WorldCities)
+WorldCities <- head(WorldCities, 200) # 200 rows
+country_col <- WorldCities$country
+unique(country_col)
+```
+###Question1: There are 200 observations and 10 variables in the data set. Some of the variable names are latitude, longtitude, country, countryregion, population etc. 
+```{r}
+country_col <- select(WorldCities, country)
+country_col <- WorldCities %>% select(country)
+ WorldCities %>% ggplot(aes(x = population)) + geom_histogram()
+  WorldCities %>% ggplot(aes(x = population)) + geom_histogram() +
+xlab('City Population')
+  
