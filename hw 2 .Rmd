@@ -1,0 +1,114 @@
+---
+title: "COMPSCIX4152 HW 2"
+author: "weiren wang"
+date: "2/12/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+### Section 3.2.4: all exercises
+Section 3.3.1: all exercises
+Section 3.5.1: #4 and #5 only
+Section 3.6.1: #1-5. Extra Credit: Do #6
+Section 3.7.1: #2 only
+```{r pckgs, warning=FALSE, message=FALSE}
+library(ggplot2)
+```
+###3.2.4.1 Run ggplot(data = mpg). What do you see?
+```{r}
+ggplot(data = mpg)
+```
+it creates a coordinate system that I can add layers to. No plot or line is seen. 
+###3.2.4.2 How many rows are in mpg? How many columns?
+```{r}
+?mpg
+```
+mpg is a data frame with 234 rows and 11 columns
+###3.2.4.3 What does the drv variable describe? Read the help for ?mpg to find out.
+it's a categorical variable describes if the car is front-wheel drive, rear wheel drive or 4wd. 
+###3.2.4.4 Make a scatterplot of hwy vs cyl
+```{r} 
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = cyl, y = hwy))
+```
+###3.2.4.5 What happens if you make a scatterplot of class vs drv? Why is the plot not useful?
+```{r} 
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = class, y = drv))
+```
+There are some dots which seems not useful to determine the fuel efficiency because both class and drv are categorical variable. 
+###3.3.1.1
+What’s gone wrong with this code? Why are the points not blue?
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+  
+Because color = blue should be outside the aes() in order to make the dots blue. 
+###3.3.1.2
+Which variables in mpg are categorical? Which variables are continuous? (Hint: type ?mpg to read the documentation for the dataset). How can you see this information when you run mpg?
+
+Categorical variables are: manufacturer, model, cyl; trans, drv, fl and class.
+Continuous variables are: displ, year, city, and hwy.
+###3.3.1.3
+Map a continuous variable to color, size, and shape. How do these aesthetics behave differently for categorical vs. continuous variables?
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = cty))
+```
+###3.3.1.4 What happens if you map the same variable to multiple aesthetics?
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = cty, size = cty))
+```
+
+both aesthetics will show on the plot. A legend is created. 
+###3.3.1.5 What does the stroke aesthetic do? What shapes does it work with? 
+Use the stroke aesthetic to modify the width of the border
+### 6. What happens if you map an aesthetic to something other than a variable name, like aes(colour = displ < 5)?
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = displ < 5))
+```
+ if displ < 5, then the point is given the category of TRUE which colored green, otherwise it is given the category of FALSE which colored red. 
+###3.5.1.4 Take the first faceted plot in this section:
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ class, nrow = 2)
+What are the advantages to using faceting instead of the colour aesthetic? What are the disadvantages? How might the balance change if you had a larger dataset?
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ class, nrow = 2)
+```
+###5. Read ?facet_wrap. What does nrow do? What does ncol do? What other options control the layout of the individual panels? Why doesn’t facet_grid() have nrow and ncol argument?
+nrow and ncol describe the number of rows and columns. as.table and dir also control the layout of the individual panels. facet_grid() doesn't control rows and columns because it has to be specified mannually. 
+###3.6.1.1 What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
+geom_line() for line chart, geom_boxplot() for boxplot, geom_histogram() for histogram and geom_area() for area chart
+###2. 
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE)
+```
+###3. What does show.legend = FALSE do? What happens if you remove it?
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv))
+```
+###4. What does the se argument to geom_smooth() do?
+se_argument creates confidence intervals around the smoothed line
+###5. 
+The two graphs look the same. the first set of code is another way to write less code but represent the same function as the second set of code. 
+
+###3.7.1.2 What does geom_col() do? How is it different to geom_bar()?
+geom_col() will also plot a bar chart, but it uses the data itself in order to define the heights of the bars, it doesn't do any statistical transformations of the data to construct the bars of the plot.
+
+
+
+
+
+
+
+
