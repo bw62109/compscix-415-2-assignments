@@ -1,0 +1,130 @@
+---
+title: "COMPSCIX 415.2 Homework 5/Midterm"
+author: "Weiren Wang"
+date: "March 5, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Github repository: https://github.com/bw62109/compscix-415-2-assignments  
+
+# Table of Contents 
+RStudio and R Markdown  
+The Tidyverse packages  
+R Basics  
+Data import/export  
+Visualization  
+Data munging and wrangling  
+EDA  
+Git and Github   
+
+## The tidyverse packages 
+###1. 
+
+Plotting - ggplot2  
+Data munging/wrangling - dplyr  
+Reshaping(speading and gathering)data - tidyr  
+Importing/exporting data - readr  
+
+###2. 
+
+Plotting - ggplot2 - geom_point() and facet_grid()  
+Data munging - dplyr - filter() and arrange()  
+Reshaping data - tidyr - gather() and spread()  
+Importing/exporting data - readr - write_csv() and write_delim()  
+
+## R Basics 
+###1. 
+delete "!". 
+
+###2. 
+Change the "c" from upper case to lower case 
+correct code is my_string <- c('has', 'an', 'error', 'in', 'it')
+
+###3.
+The vector in the result is not composed of actual values/numbers, it is composed of strings. If we want the actual values in the vector, we need to delete the quotation mark '' around 3 and 4 which gives my_vector <- c(1, 2, 3, 4, 5)
+
+## Data import/export 
+###1.
+```{r}
+library(tidyverse)
+rail_trail <- read_delim('rail_trail.txt', delim = '|')
+glimpse(rail_trail)
+```
+
+###2.
+```{r}
+saveRDS(rail_trail, file = 'rail_trail.rds')
+rail_trail_rds <- readRDS('rail_trail.rds')
+glimpse(rail_trail_rds)
+```
+
+
+## Visualization 
+###1. 
+First, there are some important information missing, like when and where the survey has been made, as well as the number of people participated in this survey.    
+Second, age and sex are different categories and interpretations of the data. They should be separated more clearly.      
+Third, the sum of the percentages for each group doesn't equal to 100. There might be some people in that group are not willing to answer the question or not sure about it.    
+
+###2. 
+```{r}
+library(ggplot2)
+ggplot(data = diamonds, mapping = aes(x = cut, fill = color, y = carat))+
+  geom_boxplot(position = "identity")+
+  coord_flip()
+```
+
+
+###3.
+```{r}
+ggplot(data = diamonds, mapping = aes(x = cut, fill = color, y = carat))+
+geom_boxplot(alpha = 1/5, position = "identity")+
+coord_flip()
+```
+
+## Data munging and wrangling 
+
+###1. 
+No, this data is not tidy. 
+```{r}
+library(tidyverse)
+spread(table2, key = type, value = count)
+```
+###2. 
+ mutate(diamonds, price_per_carat = price / carat)
+
+###3.
+Yes, the results make sense. smaller carat but more expensive diamonds normally have better cut. 
+We need to be wary of the missing values in the dataset. 
+```{r}
+diamonds %>% 
+  group_by(cut) %>% 
+  summarise(N = n(), selected_diamond_count = sum(price > 10000 & carat < 1.5), proportion_percetage = selected_diamond_count/N*100 )
+```
+
+## EDA 
+###1. 
+The data is from year 2000 to 2015. 
+
+###2. 
+There are 46 cities represented. 
+
+###3. 
+Houston in July 2015 had the highest number of sales of 8945. 
+
+###4.
+More number of listings leads to more number of sales, but at a diminishing return trend. 
+```{r}
+ggplot(data = txhousing)+
+  geom_smooth(mapping = aes(x = listings, y = sales))
+```
+
+
+
+
+
+
+
+
